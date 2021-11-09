@@ -128,6 +128,6 @@ public class EFColorSelectionView: UIView, EFColorView, EFColorViewDelegate {
         }
         addColorView(view: rgbColorView)
         addColorView(view: hsbColorView)
-        setSelectedIndex(index: .RGB, animated: false)
+        setSelectedIndex(index: .HSB, animated: false)
     }
 }

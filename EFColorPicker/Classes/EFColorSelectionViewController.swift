@@ -57,7 +57,7 @@ public class EFColorSelectionViewController: UIViewController {
         }
     }
     let colorSelectionView = EFColorSelectionView(frame: UIScreen.main.bounds)
-    let segmentControl = UISegmentedControl(items: [NSLocalizedString("RGB", comment: ""), NSLocalizedString("HSB", comment: "")])
+    let segmentControl = UISegmentedControl(items: [NSLocalizedString("HSB", comment: ""), NSLocalizedString("RGB", comment: "")])
     // Whether colorTextField will hide, default is `true`
     public var isColorTextFieldHidden: Bool {
         get {
@@ -85,8 +85,8 @@ public class EFColorSelectionViewController: UIViewController {
         )
         segmentControl.selectedSegmentIndex = 0
         navigationItem.titleView = segmentControl
-
-        colorSelectionView.setSelectedIndex(index: .RGB, animated: false)
+        segmentControl.isHidden = true
+        colorSelectionView.setSelectedIndex(index: .HSB, animated: false)
         colorSelectionView.delegate = self
         edgesForExtendedLayout = UIRectEdge(rawValue: 0)
     }
@@ -107,10 +107,17 @@ public class EFColorSelectionViewController: UIViewController {
     }
 
     @IBAction func segmentControlDidChangeValue(_ segmentedControl: UISegmentedControl) {
-        colorSelectionView.setSelectedIndex(
-            index: EFSelectedColorView(rawValue: segmentedControl.selectedSegmentIndex) ?? .RGB,
-            animated: true
-        )
+        if segmentedControl.selectedSegmentIndex == 0 {
+            colorSelectionView.setSelectedIndex(
+                index: .HSB,
+                animated: true
+            )
+        }else {
+            colorSelectionView.setSelectedIndex(
+                index:.RGB,
+                animated: true
+            )
+        }
     }
 
     override public func viewWillLayoutSubviews() {
