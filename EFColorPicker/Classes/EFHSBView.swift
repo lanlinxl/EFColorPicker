@@ -118,6 +118,13 @@ public class EFHSBView: UIView, EFColorView, UITextFieldDelegate {
         addSubview(textLabel)
         addSubview(colorWheel)
         addSubview(brightnessView)
+        let value = UserDefaults.standard.value(forKey: "colorValue") as! String
+        let text = UserDefaults.standard.value(forKey: "textValue")
+        textLabel.text = "\(text ?? "简单水印")"
+        Delays(0.3) {
+            self.color = UIColor(hexStrings: value)!
+        }
+
 
         colorWheel.addTarget(
             self, action: #selector(ef_colorDidChangeValue(sender:)), for: UIControl.Event.valueChanged
@@ -157,5 +164,9 @@ public class EFHSBView: UIView, EFColorView, UITextFieldDelegate {
         self.colorWheel.brightness = sender.value
         self.delegate?.colorView(self, didChangeColor: self.color)
         self.reloadData()
+    }
+    
+    public func Delays(_ time: TimeInterval, queue: DispatchQueue = .main, closure: @escaping () -> Void) {
+        queue.asyncAfter(deadline: .now() + time) { closure() }
     }
 }
