@@ -118,13 +118,15 @@ public class EFHSBView: UIView, EFColorView, UITextFieldDelegate {
         addSubview(textLabel)
         addSubview(colorWheel)
         addSubview(brightnessView)
-        let value = UserDefaults.standard.value(forKey: "colorValue") as! String
-        let text = UserDefaults.standard.value(forKey: "textValue")
-        textLabel.text = "\(text ?? "简单水印")"
-        Delays(0.3) {
-            self.color = UIColor(hexStrings: value)!
+        
+        let string = UserDefaults.standard.value(forKey: "Property.Text") as? String
+        let data = string?.data(using: String.Encoding.utf8)
+        if let dict = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String : Any], let color = dict["color"] as? String {
+            textLabel.text = dict["content"] as? String
+            Delays(0.3) {
+                self.color = UIColor(hexStrings: color)!
+            }
         }
-
 
         colorWheel.addTarget(
             self, action: #selector(ef_colorDidChangeValue(sender:)), for: UIControl.Event.valueChanged
