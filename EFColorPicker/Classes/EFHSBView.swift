@@ -46,7 +46,7 @@ public class EFHSBView: UIView, EFColorView, UITextFieldDelegate {
     
     private let textLabel: UILabel = {
        let label = UILabel()
-        label.text = "简单水印"
+        label.text = "小水印"
         label.font = .systemFont(ofSize: 20)
         label.textAlignment = .center
         return label
@@ -119,12 +119,13 @@ public class EFHSBView: UIView, EFColorView, UITextFieldDelegate {
         addSubview(colorWheel)
         addSubview(brightnessView)
         
-        let string = UserDefaults.standard.value(forKey: "Property.Text") as? String
-        let data = string?.data(using: String.Encoding.utf8)
-        if let dict = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String : Any], let color = dict["color"] as? String {
-            textLabel.text = dict["content"] as? String
+        if let string = UserDefaults.standard.value(forKey: "currentTextContent") as? String {
+            textLabel.text = string
+        }
+
+        if let string = UserDefaults.standard.value(forKey: "currentTextColor") as? String {
             Delays(0.3) {
-                self.color = UIColor(hexStrings: color)!
+                self.color = UIColor(hexStrings: string)!
             }
         }
 
